@@ -393,7 +393,7 @@ impl App {
     fn view_header(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <header class="header">
-                <h1 class="title">{"OhMyWordle!"}</h1>
+                <h1 class="title">{"Oh-My-Wordle!"}</h1>
             </header>
         }
     }
