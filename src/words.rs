@@ -403,9 +403,15 @@ pub const VALID_GUESSES: &[&str] = &[
     "poker", "suave", "udder", "uncut", "under", "unfit",
 ];
 
-/// Filter to only valid 5-letter words
+/// Return all valid 5-letter words from both the answer pool and the extended guesses list.
+/// This combined pool is used both for answer selection and guess validation.
 pub fn valid_words() -> Vec<&'static str> {
-    WORDS.iter().copied().filter(|w| w.len() == 5).collect()
+    WORDS
+        .iter()
+        .copied()
+        .chain(VALID_GUESSES.iter().copied())
+        .filter(|w| w.len() == 5)
+        .collect()
 }
 
 /// Check if a word is in either the answer word list or the valid-guesses list (5-letter words only)
