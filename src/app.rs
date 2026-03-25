@@ -378,6 +378,7 @@ impl Component for App {
         html! {
             <div class="app" tabindex="0" onkeydown={onkeydown}>
                 { self.view_header(ctx) }
+                { self.view_action_bar(ctx) }
                 { self.view_message() }
                 { self.view_board(ctx) }
                 { self.view_keyboard(ctx) }
@@ -389,42 +390,48 @@ impl Component for App {
 }
 
 impl App {
-    fn view_header(&self, ctx: &Context<Self>) -> Html {
+    fn view_header(&self, _ctx: &Context<Self>) -> Html {
+        html! {
+            <header class="header">
+                <h1 class="title">{"OhMyWordle!"}</h1>
+            </header>
+        }
+    }
+
+    fn view_action_bar(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
         let diff_label = match self.difficulty {
             Difficulty::Easy => "Easy",
             Difficulty::Hard => "Hard ★",
         };
         let diff_class = match self.difficulty {
-            Difficulty::Easy => "btn-mode easy",
-            Difficulty::Hard => "btn-mode hard",
+            Difficulty::Easy => "btn-action",
+            Difficulty::Hard => "btn-action btn-action-hard",
         };
 
         html! {
-            <header class="header">
-                <div class="header-left">
-                    <button class={diff_class}
-                        onclick={link.callback(|_| Msg::ToggleDifficulty)}
-                        title="Toggle difficulty (only at game start)">
-                        { diff_label }
-                    </button>
-                </div>
-                <h1 class="title">{"OhMyWordle!"}</h1>
-                <div class="header-right">
-                    <button class="btn-icon" onclick={link.callback(|_| Msg::ShowStats)} title="Statistics">
-                        {"📊"}
-                    </button>
-                    <button class="btn-icon" onclick={link.callback(|_| Msg::ShowCreateLink)} title="Create challenge link">
-                        {"✏️"}
-                    </button>
-                    <button class="btn-icon" onclick={link.callback(|_| Msg::ShareUrl)} title="Share this puzzle">
-                        {"🔗"}
-                    </button>
-                    <button class="btn-icon" onclick={link.callback(|_| Msg::NewGame)} title="New Game">
-                        {"🔄"}
-                    </button>
-                </div>
-            </header>
+            <div class="action-bar">
+                <button class="btn-action" onclick={link.callback(|_| Msg::NewGame)} title="New Game">
+                    <span class="btn-action-icon">{"🔄"}</span>
+                    <span class="btn-action-label">{"New"}</span>
+                </button>
+                <button class="btn-action" onclick={link.callback(|_| Msg::ShowStats)} title="Statistics">
+                    <span class="btn-action-icon">{"📊"}</span>
+                    <span class="btn-action-label">{"Stats"}</span>
+                </button>
+                <button class="btn-action" onclick={link.callback(|_| Msg::ShowCreateLink)} title="Create challenge">
+                    <span class="btn-action-icon">{"✏️"}</span>
+                    <span class="btn-action-label">{"Create"}</span>
+                </button>
+                <button class="btn-action" onclick={link.callback(|_| Msg::ShareUrl)} title="Share this puzzle">
+                    <span class="btn-action-icon">{"🔗"}</span>
+                    <span class="btn-action-label">{"Share"}</span>
+                </button>
+                <button class={diff_class} onclick={link.callback(|_| Msg::ToggleDifficulty)} title="Toggle difficulty (only at game start)">
+                    <span class="btn-action-icon">{"⚙️"}</span>
+                    <span class="btn-action-label">{ diff_label }</span>
+                </button>
+            </div>
         }
     }
 
