@@ -14,6 +14,8 @@
     --color-key-text: #ffffff;
     --tile-size: 62px;
     --tile-gap: 5px;
+    --key-height: 58px;
+    --key-gap: 6px;
     --font: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -38,10 +40,9 @@ html, body {
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--color-border);
-    padding: 8px 12px;
-    height: 52px;
+    justify-content: center;
+    padding: 6px 12px;
+    height: 46px;
     flex-shrink: 0;
 }
 
@@ -50,49 +51,64 @@ html, body {
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    flex: 1;
     text-align: center;
 }
 
-.header-left, .header-right {
+/* ===== Action Bar ===== */
+.action-bar {
     display: flex;
-    gap: 6px;
-    align-items: center;
-    min-width: 90px;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px 6px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
 }
 
-.header-right { justify-content: flex-end; }
-
-.btn-icon {
-    background: none;
-    border: none;
+.btn-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
     color: var(--color-text);
-    font-size: 1.2rem;
     cursor: pointer;
     padding: 4px 6px;
-    border-radius: 4px;
+    flex: 1;
+    min-width: 0;
+    max-width: 80px;
     transition: background 0.1s;
+    -webkit-tap-highlight-color: transparent;
 }
-.btn-icon:hover { background: var(--color-border); }
 
-.btn-mode {
-    font-size: 0.65rem;
+.btn-action:hover { background: var(--color-border); }
+.btn-action:active { transform: scale(0.95); }
+
+.btn-action-hard {
+    background: #b59f3b;
+    border-color: #b59f3b;
+    color: #fff;
+}
+.btn-action-hard:hover { background: #c9b044; }
+
+.btn-action-icon {
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.btn-action-label {
+    font-size: 0.625rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--color-border);
-    cursor: pointer;
-    transition: all 0.1s;
+    white-space: nowrap;
 }
-.btn-mode.easy { background: var(--color-surface); color: var(--color-text-dim); }
-.btn-mode.hard { background: #b59f3b; color: #fff; border-color: #b59f3b; }
 
 /* ===== Message Toast ===== */
 .message {
     position: fixed;
-    top: 60px;
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--color-text);
@@ -120,7 +136,8 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
+    padding: 8px 0;
+    min-height: 0;
 }
 
 .board {
@@ -180,26 +197,29 @@ html, body {
 
 /* ===== Keyboard ===== */
 .keyboard {
-    padding: 8px 8px 16px;
+    padding: 6px 6px 12px;
     flex-shrink: 0;
 }
 
 .keyboard-row {
     display: flex;
     justify-content: center;
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: var(--key-gap);
+    margin-bottom: var(--key-gap);
+    width: 100%;
 }
 
 .key {
-    height: 58px;
-    min-width: 43px;
-    padding: 0 4px;
+    flex: 1;
+    height: var(--key-height);
+    max-width: 43px;
+    min-width: 0;
+    padding: 0 2px;
     border: none;
     border-radius: 4px;
     background: var(--color-key-bg);
     color: var(--color-key-text);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -214,7 +234,8 @@ html, body {
 .key:active { transform: scale(0.95); }
 
 .key-wide {
-    min-width: 65px;
+    flex: 1.5;
+    max-width: 65px;
     font-size: 0.75rem;
 }
 
@@ -432,17 +453,51 @@ html, body {
 }
 
 /* ===== Responsive ===== */
-@media (max-height: 680px) {
-    :root { --tile-size: 52px; }
-    .key { height: 48px; min-width: 36px; font-size: 0.75rem; }
-    .key-wide { min-width: 54px; }
-    .header { height: 44px; }
+@media (max-height: 700px) {
+    :root {
+        --tile-size: 52px;
+        --key-height: 50px;
+        --key-gap: 5px;
+    }
+    .header { height: 40px; }
     .title { font-size: 1.3rem; }
+    .action-bar { padding: 3px 6px 5px; gap: 3px; }
+    .btn-action-icon { font-size: 0.9rem; }
+    .tile { font-size: 1.7rem; }
 }
 
-@media (max-width: 360px) {
-    :root { --tile-size: 52px; --tile-gap: 4px; }
-    .key { min-width: 32px; height: 52px; font-size: 0.75rem; }
-    .key-wide { min-width: 48px; font-size: 0.65rem; }
-    .keyboard-row { gap: 4px; }
+@media (max-height: 600px) {
+    :root {
+        --tile-size: 44px;
+        --tile-gap: 4px;
+        --key-height: 44px;
+        --key-gap: 4px;
+    }
+    .header { height: 36px; }
+    .title { font-size: 1.15rem; }
+    .action-bar { padding: 2px 6px 4px; }
+    .btn-action-icon { font-size: 0.8rem; }
+    .btn-action-label { font-size: 0.6rem; }
+    .tile { font-size: 1.4rem; }
+    .key { font-size: 0.8rem; }
+    .key-wide { font-size: 0.65rem; }
+}
+
+@media (max-height: 540px) {
+    :root {
+        --tile-size: 38px;
+        --tile-gap: 3px;
+        --key-height: 38px;
+        --key-gap: 3px;
+    }
+    .tile { font-size: 1.2rem; }
+    .key { font-size: 0.75rem; }
+    .key-wide { font-size: 0.6rem; }
+}
+
+@media (max-width: 380px) {
+    :root { --key-gap: 4px; }
+    .keyboard { padding: 4px 4px 10px; }
+    .action-bar { gap: 3px; padding: 3px 4px 5px; }
+    .btn-action { padding: 3px 4px; }
 }
