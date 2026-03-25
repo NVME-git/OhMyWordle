@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use wasm_bindgen::JsCast;
 use gloo::utils::window;
 use gloo::storage::{LocalStorage, Storage};
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
@@ -63,6 +64,10 @@ pub enum Msg {
     HideStats,
     HideMessage,
     CopyDone,
+    ShowCreateLink,
+    HideCreateLink,
+    CreateLinkInput(String),
+    CopyCreateLink,
 }
 
 pub struct App {
@@ -77,6 +82,8 @@ pub struct App {
     is_shared_game: bool,
     letter_states: std::collections::HashMap<char, TileState>,
     copy_done: bool,
+    show_create_link: bool,
+    create_link_word: String,
 }
 
 impl App {
@@ -118,12 +125,16 @@ impl App {
         .forget();
     }
 
-    fn build_share_url(&self) -> String {
-        let encoded = encode_word(&self.answer);
+    fn build_url_for_word(word: &str) -> String {
+        let encoded = encode_word(word);
         let location = window().location();
         let origin = location.origin().unwrap_or_default();
         let pathname = location.pathname().unwrap_or_default();
         format!("{}{}?w={}", origin, pathname, encoded)
+    }
+
+    fn build_share_url(&self) -> String {
+        Self::build_url_for_word(&self.answer)
     }
 }
 
@@ -153,6 +164,8 @@ impl Component for App {
             is_shared_game,
             letter_states: std::collections::HashMap::new(),
             copy_done: false,
+            show_create_link: false,
+            create_link_word: String::new(),
         }
     }
 
@@ -306,6 +319,41 @@ impl Component for App {
                 self.copy_done = false;
                 true
             }
+            Msg::ShowCreateLink => {
+                self.show_create_link = true;
+                self.create_link_word.clear();
+                true
+            }
+            Msg::HideCreateLink => {
+                self.show_create_link = false;
+                self.create_link_word.clear();
+                true
+            }
+            Msg::CreateLinkInput(raw) => {
+                let filtered: String = raw
+                    .chars()
+                    .filter(|c| c.is_ascii_alphabetic())
+                    .take(WORD_LENGTH)
+                    .collect::<String>()
+                    .to_lowercase();
+                self.create_link_word = filtered;
+                true
+            }
+            Msg::CopyCreateLink => {
+                if !is_valid_word(&self.create_link_word) {
+                    return false;
+                }
+                let url = Self::build_url_for_word(&self.create_link_word);
+                let link = ctx.link().clone();
+                let clipboard = gloo::utils::window().navigator().clipboard();
+                let promise = clipboard.write_text(&url);
+                wasm_bindgen_futures::spawn_local(async move {
+                    let _ = wasm_bindgen_futures::JsFuture::from(promise).await;
+                    link.send_message(Msg::CopyDone);
+                });
+                self.show_message(ctx, "Challenge link copied! 🔗".to_string());
+                true
+            }
         }
     }
 
@@ -334,6 +382,7 @@ impl Component for App {
                 { self.view_board(ctx) }
                 { self.view_keyboard(ctx) }
                 { if self.show_stats { self.view_stats_modal(ctx) } else { html!{} } }
+                { if self.show_create_link { self.view_create_link_modal(ctx) } else { html!{} } }
             </div>
         }
     }
@@ -364,6 +413,9 @@ impl App {
                 <div class="header-right">
                     <button class="btn-icon" onclick={link.callback(|_| Msg::ShowStats)} title="Statistics">
                         {"📊"}
+                    </button>
+                    <button class="btn-icon" onclick={link.callback(|_| Msg::ShowCreateLink)} title="Create challenge link">
+                        {"✏️"}
                     </button>
                     <button class="btn-icon" onclick={link.callback(|_| Msg::ShareUrl)} title="Share this puzzle">
                         {"🔗"}
@@ -569,6 +621,57 @@ impl App {
                     <button class="btn-new-game" onclick={link.callback(|_| Msg::NewGame)}>
                         {"New Game"}
                     </button>
+                </div>
+            </div>
+        }
+    }
+
+    fn view_create_link_modal(&self, ctx: &Context<Self>) -> Html {
+        let link = ctx.link();
+        let word = &self.create_link_word;
+
+        let is_valid = word.len() == WORD_LENGTH && is_valid_word(word);
+        let error_msg: Option<&str> = if !word.is_empty() && word.len() < WORD_LENGTH {
+            Some("Word must be 5 letters")
+        } else if word.len() == WORD_LENGTH && !is_valid {
+            Some("Not in word list")
+        } else {
+            None
+        };
+        let generated_url = if is_valid {
+            Some(Self::build_url_for_word(word))
+        } else {
+            None
+        };
+
+        html! {
+            <div class="modal-overlay" onclick={link.callback(|_| Msg::HideCreateLink)}>
+                <div class="modal" onclick={Callback::from(|e: MouseEvent| e.stop_propagation())}>
+                    <button class="modal-close" onclick={link.callback(|_| Msg::HideCreateLink)}>{"✕"}</button>
+                    <h2>{"Create Challenge"}</h2>
+                    <p class="create-link-desc">{"Type any valid 5-letter word to create a shareable puzzle link for a friend:"}</p>
+                    <input
+                        class="create-link-input"
+                        type="text"
+                        placeholder="WORD"
+                        maxlength="5"
+                        value={word.to_uppercase()}
+                        oninput={link.callback(|e: InputEvent| {
+                            let input: web_sys::HtmlInputElement = e.target().unwrap().unchecked_into();
+                            Msg::CreateLinkInput(input.value())
+                        })}
+                    />
+                    if let Some(err) = error_msg {
+                        <p class="create-link-error">{ err }</p>
+                    }
+                    if let Some(ref url) = generated_url {
+                        <div class="create-link-url-section">
+                            <input class="share-url" readonly=true value={url.clone()} />
+                            <button class="btn-share" onclick={link.callback(|_| Msg::CopyCreateLink)}>
+                                {"Copy Challenge Link"}
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         }

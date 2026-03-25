@@ -388,6 +388,49 @@ html, body {
 }
 .btn-new-game:hover { filter: brightness(1.1); }
 
+/* ===== Create Challenge Link ===== */
+.create-link-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    margin-bottom: 16px;
+}
+
+.create-link-input {
+    width: 100%;
+    padding: 12px;
+    background: var(--color-border);
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: var(--font);
+}
+
+.create-link-input:focus {
+    outline: none;
+    border-color: var(--color-text-dim);
+}
+
+.create-link-error {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.create-link-url-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+    width: 100%;
+}
+
 /* ===== Responsive ===== */
 @media (max-height: 680px) {
     :root { --tile-size: 52px; }
