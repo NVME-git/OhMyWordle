@@ -1,0 +1,19 @@
+# Rust build artifacts
+/target/
+dist/
+
+# Cargo lock (keep for binaries)
+# Cargo.lock  # kept intentionally
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Trunk temporary files
+.trunk/
