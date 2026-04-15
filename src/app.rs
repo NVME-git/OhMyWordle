@@ -46,10 +46,10 @@ fn get_install_instructions() -> Option<(&'static str, &'static str)> {
     if let Ok(ua) = window().navigator().user_agent() {
         let ua_lower = ua.to_lowercase();
         if ua_lower.contains("iphone") || ua_lower.contains("ipad") || ua_lower.contains("ipod") {
-            return Some(("📤", "Tap the Share button (📤) then select \"Add to Home Screen\""));
+            return Some(("📤", "Tap the Share button then select \"Add to Home Screen\""));
         }
         if ua_lower.contains("android") {
-            return Some(("⋮", "Tap the browser menu (⋮) then select \"Add to Home Screen\""));
+            return Some(("⋮", "Tap the browser menu then select \"Add to Home Screen\""));
         }
     }
     None
