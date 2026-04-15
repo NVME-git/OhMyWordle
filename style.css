@@ -502,3 +502,59 @@ a.btn-action { text-decoration: none; }
     .action-bar { gap: 3px; padding: 3px 4px 5px; }
     .btn-action { padding: 3px 4px; }
 }
+
+/* ===== Install Banner ===== */
+.install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 12px 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 40;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.install-banner-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.install-banner-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.install-banner-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.install-banner-text {
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    line-height: 1.4;
+}
+
+.install-banner-close {
+    background: none;
+    border: none;
+    color: var(--color-text-dim);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.install-banner-close:hover {
+    color: var(--color-text);
+}
