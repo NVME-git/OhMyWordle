@@ -431,6 +431,10 @@ impl App {
                     <span class="btn-action-icon">{"⚙️"}</span>
                     <span class="btn-action-label">{ diff_label }</span>
                 </button>
+                <a class="btn-action" href="https://buymeacoffee.com/nabeelvandayar" target="_blank" rel="noopener noreferrer" title="Buy Me a Coffee">
+                    <span class="btn-action-icon">{"☕"}</span>
+                    <span class="btn-action-label">{"Coffee"}</span>
+                </a>
             </div>
         }
     }

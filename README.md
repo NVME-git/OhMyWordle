@@ -2,6 +2,8 @@
 
 A Wordle clone built with **Rust + WebAssembly** (Yew framework), hosted on GitHub Pages.
 
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/nabeelvandayar)
+
 ![OhMyWordle Screenshot](https://github.com/user-attachments/assets/b8df1de6-9ce6-4204-8c86-896f8bbe251f)
 
 ## Features

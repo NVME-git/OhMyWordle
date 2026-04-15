@@ -84,6 +84,7 @@ html, body {
 
 .btn-action:hover { background: var(--color-border); }
 .btn-action:active { transform: scale(0.95); }
+a.btn-action { text-decoration: none; }
 
 .btn-action-hard {
     background: #b59f3b;
