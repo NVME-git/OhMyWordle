@@ -13,6 +13,7 @@ use crate::stats::Stats;
 use crate::words::{is_valid_word, valid_words};
 
 const DIFFICULTY_KEY: &str = "ohmywordle_difficulty";
+const INSTALL_BANNER_KEY: &str = "ohmywordle_install_banner_dismissed";
 
 /// Encode a word to a URL-safe base64 string
 fn encode_word(word: &str) -> String {
@@ -38,6 +39,20 @@ fn get_shared_word() -> Option<String> {
     let params = web_sys::UrlSearchParams::new_with_str(&search).ok()?;
     let encoded = params.get("w")?;
     decode_word(&encoded)
+}
+
+/// Detect mobile platform and return install instructions, or None for desktop
+fn get_install_instructions() -> Option<(&'static str, &'static str)> {
+    if let Ok(ua) = window().navigator().user_agent() {
+        let ua_lower = ua.to_lowercase();
+        if ua_lower.contains("iphone") || ua_lower.contains("ipad") || ua_lower.contains("ipod") {
+            return Some(("📤", "Tap the Share button then select \"Add to Home Screen\""));
+        }
+        if ua_lower.contains("android") {
+            return Some(("⋮", "Tap the browser menu then select \"Add to Home Screen\""));
+        }
+    }
+    None
 }
 
 /// Pick a random word from the word list
@@ -68,6 +83,7 @@ pub enum Msg {
     HideCreateLink,
     CreateLinkInput(String),
     CopyCreateLink,
+    DismissInstallBanner,
 }
 
 pub struct App {
@@ -84,6 +100,7 @@ pub struct App {
     copy_done: bool,
     show_create_link: bool,
     create_link_word: String,
+    show_install_banner: bool,
 }
 
 impl App {
@@ -152,6 +169,10 @@ impl Component for App {
         let difficulty = LocalStorage::get::<Difficulty>(DIFFICULTY_KEY)
             .unwrap_or(Difficulty::Easy);
 
+        let install_banner_dismissed = LocalStorage::get::<bool>(INSTALL_BANNER_KEY)
+            .unwrap_or(false);
+        let show_install_banner = !install_banner_dismissed && get_install_instructions().is_some();
+
         App {
             answer,
             current_guess: String::new(),
@@ -166,6 +187,7 @@ impl Component for App {
             copy_done: false,
             show_create_link: false,
             create_link_word: String::new(),
+            show_install_banner,
         }
     }
 
@@ -354,6 +376,11 @@ impl Component for App {
                 self.show_message(ctx, "Challenge link copied! 🔗".to_string());
                 true
             }
+            Msg::DismissInstallBanner => {
+                self.show_install_banner = false;
+                let _ = LocalStorage::set(INSTALL_BANNER_KEY, true);
+                true
+            }
         }
     }
 
@@ -384,6 +411,7 @@ impl Component for App {
                 { self.view_keyboard(ctx) }
                 { if self.show_stats { self.view_stats_modal(ctx) } else { html!{} } }
                 { if self.show_create_link { self.view_create_link_modal(ctx) } else { html!{} } }
+                { self.view_install_banner(ctx) }
             </div>
         }
     }
@@ -684,6 +712,30 @@ impl App {
                         </div>
                     }
                 </div>
+            </div>
+        }
+    }
+
+    fn view_install_banner(&self, ctx: &Context<Self>) -> Html {
+        if !self.show_install_banner {
+            return html! {};
+        }
+        let Some((icon, instructions)) = get_install_instructions() else {
+            return html! {};
+        };
+        let link = ctx.link();
+        html! {
+            <div class="install-banner">
+                <span class="install-banner-icon">{ icon }</span>
+                <div class="install-banner-content">
+                    <p class="install-banner-title">{"Add to Home Screen"}</p>
+                    <p class="install-banner-text">{ instructions }</p>
+                </div>
+                <button
+                    class="install-banner-close"
+                    onclick={link.callback(|_| Msg::DismissInstallBanner)}
+                    aria-label="Dismiss"
+                >{"✕"}</button>
             </div>
         }
     }
