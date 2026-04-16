@@ -31,12 +31,18 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    height: 100svh;
-    height: 100dvh;
     max-width: 500px;
     margin: 0 auto;
     overflow: hidden;
     outline: none;
+}
+
+@supports (height: 100svh) {
+    .app { height: 100svh; }
+}
+
+@supports (height: 100dvh) {
+    .app { height: 100dvh; }
 }
 
 /* ===== Header ===== */
@@ -514,7 +520,6 @@ a.btn-action { text-decoration: none; }
 
 /* ===== Install Banner ===== */
 .install-banner {
-    position: static;
     width: 100%;
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
