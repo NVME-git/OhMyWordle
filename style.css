@@ -12,10 +12,10 @@
     --color-absent: #3a3a3c;
     --color-key-bg: #818384;
     --color-key-text: #ffffff;
-    --tile-size: 62px;
-    --tile-gap: 5px;
-    --key-height: 58px;
-    --key-gap: 6px;
+    --tile-size: clamp(30px, min(11vw, 8.2vh), 62px);
+    --tile-gap: clamp(2px, 0.7vh, 5px);
+    --key-height: clamp(32px, 6.8vh, 58px);
+    --key-gap: clamp(3px, 0.8vh, 6px);
     --font: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -24,15 +24,18 @@ html, body {
     background: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .app {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100svh;
+    height: 100dvh;
     max-width: 500px;
     margin: 0 auto;
+    overflow: hidden;
     outline: none;
 }
 
@@ -133,12 +136,14 @@ a.btn-action { text-decoration: none; }
 
 /* ===== Board ===== */
 .board-container {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 8px 0;
     min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .board {
@@ -198,8 +203,12 @@ a.btn-action { text-decoration: none; }
 
 /* ===== Keyboard ===== */
 .keyboard {
-    padding: 6px 6px 12px;
+    padding: 6px 6px calc(12px + env(safe-area-inset-bottom, 0px));
     flex-shrink: 0;
+    background: var(--color-bg);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
 }
 
 .keyboard-row {
@@ -505,19 +514,14 @@ a.btn-action { text-decoration: none; }
 
 /* ===== Install Banner ===== */
 .install-banner {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
     width: 100%;
-    max-width: 500px;
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
-    padding: 12px 16px 16px;
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px));
     display: flex;
     align-items: center;
     gap: 10px;
-    z-index: 40;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
 }
 
