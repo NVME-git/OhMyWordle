@@ -468,6 +468,23 @@ a.btn-action { text-decoration: none; }
     width: 100%;
 }
 
+/* ===== How To Play Modal ===== */
+.how-to-section {
+    text-align: left;
+    margin-bottom: 14px;
+}
+
+.how-to-section h3 {
+    margin: 0 0 6px;
+}
+
+.how-to-section p {
+    font-size: 0.82rem;
+    color: var(--color-text-dim);
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
 /* ===== Responsive ===== */
 @media (max-height: 700px) {
     :root {
