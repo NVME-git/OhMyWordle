@@ -462,7 +462,7 @@ impl App {
                 </button>
                 <button class="btn-action" onclick={link.callback(|_| Msg::ShowHowToPlay)} title="How to play">
                     <span class="btn-action-icon">{"❓"}</span>
-                    <span class="btn-action-label">{"How To"}</span>
+                    <span class="btn-action-label">{"How to"}</span>
                 </button>
                 <button class="btn-action" onclick={link.callback(|_| Msg::ShowCreateLink)} title="Create challenge">
                     <span class="btn-action-icon">{"✏️"}</span>
