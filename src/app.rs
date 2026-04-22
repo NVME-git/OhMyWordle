@@ -77,6 +77,8 @@ pub enum Msg {
     ToggleDifficulty,
     ShowStats,
     HideStats,
+    ShowHowToPlay,
+    HideHowToPlay,
     HideMessage,
     CopyDone,
     ShowCreateLink,
@@ -95,6 +97,7 @@ pub struct App {
     stats: Stats,
     message: Option<String>,
     show_stats: bool,
+    show_how_to_play: bool,
     is_shared_game: bool,
     letter_states: std::collections::HashMap<char, TileState>,
     copy_done: bool,
@@ -182,6 +185,7 @@ impl Component for App {
             stats: Stats::load(),
             message: None,
             show_stats: false,
+            show_how_to_play: false,
             is_shared_game,
             letter_states: std::collections::HashMap::new(),
             copy_done: false,
@@ -333,6 +337,14 @@ impl Component for App {
                 self.show_stats = false;
                 true
             }
+            Msg::ShowHowToPlay => {
+                self.show_how_to_play = true;
+                true
+            }
+            Msg::HideHowToPlay => {
+                self.show_how_to_play = false;
+                true
+            }
             Msg::HideMessage => {
                 self.message = None;
                 true
@@ -410,6 +422,7 @@ impl Component for App {
                 { self.view_board(ctx) }
                 { self.view_keyboard(ctx) }
                 { if self.show_stats { self.view_stats_modal(ctx) } else { html!{} } }
+                { if self.show_how_to_play { self.view_how_to_play_modal(ctx) } else { html!{} } }
                 { if self.show_create_link { self.view_create_link_modal(ctx) } else { html!{} } }
                 { self.view_install_banner(ctx) }
             </div>
@@ -446,6 +459,10 @@ impl App {
                 <button class="btn-action" onclick={link.callback(|_| Msg::ShowStats)} title="Statistics">
                     <span class="btn-action-icon">{"📊"}</span>
                     <span class="btn-action-label">{"Stats"}</span>
+                </button>
+                <button class="btn-action" onclick={link.callback(|_| Msg::ShowHowToPlay)} title="How to play">
+                    <span class="btn-action-icon">{"❓"}</span>
+                    <span class="btn-action-label">{"How to"}</span>
                 </button>
                 <button class="btn-action" onclick={link.callback(|_| Msg::ShowCreateLink)} title="Create challenge">
                     <span class="btn-action-icon">{"✏️"}</span>
@@ -660,6 +677,50 @@ impl App {
                     <button class="btn-new-game" onclick={link.callback(|_| Msg::NewGame)}>
                         {"New Game"}
                     </button>
+                </div>
+            </div>
+        }
+    }
+
+    fn view_how_to_play_modal(&self, ctx: &Context<Self>) -> Html {
+        let link = ctx.link();
+        html! {
+            <div class="modal-overlay" onclick={link.callback(|_| Msg::HideHowToPlay)}>
+                <div class="modal" onclick={Callback::from(|e: MouseEvent| e.stop_propagation())}>
+                    <button class="modal-close" onclick={link.callback(|_| Msg::HideHowToPlay)}>{"✕"}</button>
+                    <h2>{"How to Play"}</h2>
+
+                    <div class="how-to-section">
+                        <h3>{"Goal"}</h3>
+                        <p>{"Guess the hidden 5-letter word in up to 6 tries."}</p>
+                    </div>
+
+                    <div class="how-to-section">
+                        <h3>{"Tile Colors"}</h3>
+                        <p>{"🟩 Green: right letter, right spot."}</p>
+                        <p>{"🟨 Yellow: right letter, wrong spot."}</p>
+                        <p>{"⬛ Gray: letter is not in the word."}</p>
+                    </div>
+
+                    <div class="how-to-section">
+                        <h3>{"Controls"}</h3>
+                        <p>{"Type on your keyboard or tap the on-screen keys."}</p>
+                        <p>{"Press Enter to submit and ⌫ to delete."}</p>
+                    </div>
+
+                    <div class="how-to-section">
+                        <h3>{"Game Buttons"}</h3>
+                        <p>{"🔄 New: start a new random puzzle."}</p>
+                        <p>{"📊 Stats: view wins, streaks, and guess distribution."}</p>
+                        <p>{"✏️ Create: make a challenge link with a chosen valid word."}</p>
+                        <p>{"🔗 Share: copy a link to your current puzzle."}</p>
+                        <p>{"⚙️ Easy / Hard: switch difficulty before your first guess."}</p>
+                    </div>
+
+                    <div class="how-to-section">
+                        <h3>{"Hard Mode"}</h3>
+                        <p>{"In Hard mode, all revealed clues must be reused in future guesses."}</p>
+                    </div>
                 </div>
             </div>
         }
