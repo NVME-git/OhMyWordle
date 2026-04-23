@@ -21,7 +21,7 @@ pub const WORDS: &[&str] = &[
     "cabal", "cabin", "cable", "camel", "candy", "cargo", "carol", "carry",
     "carve", "catch", "cause", "cease", "cedar", "chain", "chair", "chalk",
     "chaos", "charm", "chart", "chase", "cheap", "check", "cheek", "cheer",
-    "chess", "chest", "chief", "chili", "chill", "china", "choir", "chord",
+    "chess", "chest", "chief", "child", "chili", "chill", "china", "choir", "chord",
     "cinch", "civic", "civil", "claim", "clamp", "clank", "clash", "clasp",
     "class", "cleat", "clerk", "click", "cliff", "climb", "cling", "cloak",
     "clock", "clone", "close", "cloth", "cloud", "clown", "cluck", "clump",
@@ -41,17 +41,17 @@ pub const WORDS: &[&str] = &[
     "excel", "exile", "extra", "fable", "faced", "faint", "fairy", "faith",
     "false", "fancy", "farce", "fatal", "fault", "fawns", "feast", "feign",
     "femur", "fence", "ferry", "fetch", "fewer", "fiber", "field", "fiend",
-    "fiery", "final", "flair", "flame", "flank", "flare", "flash", "flask",
+    "fiery", "fifty", "final", "flair", "flame", "flank", "flare", "flash", "flask",
     "flaws", "flesh", "float", "flood", "floor", "floss", "flour", "flout",
-    "flown", "flush", "focal", "foray", "force", "forge", "forum", "foyer",
+    "flown", "flush", "focal", "foray", "force", "forge", "forty", "forum", "foyer",
     "frail", "frame", "frank", "fraud", "fresh", "front", "frost", "froth",
-    "froze", "fruit", "fully", "funny", "gable", "games", "gauze", "gavel", "girth", "given", "gland", "glare", "glass", "gleam",
+    "froze", "fruit", "fully", "funny", "gable", "games", "gauge", "gauze", "gavel", "ghost", "girth", "given", "gland", "glare", "glass", "gleam",
     "glide", "glint", "gloat", "globe", "gloom", "gloss", "glove", "glyph",
     "gnome", "going", "grace", "grade", "grain", "grand", "grant", "graph",
-    "grasp", "grass", "grate", "grave", "graze", "greed", "greet", "grief",
+    "grasp", "grass", "grate", "grave", "graze", "greed", "green", "greet", "grief",
     "grill", "grime", "grind", "groan", "groin", "groom", "grope", "gross",
     "group", "grove", "growl", "grown", "gruel", "gruff", "grump", "guard",
-    "guile", "guise", "gusto", "halve", "harsh", "haven", "heart", "heavy",
+    "guile", "guise", "gusto", "halve", "happy", "harsh", "haven", "heart", "heavy",
     "hedge", "heist", "hence", "heron", "hinge", "hippo", "hoist", "honey",
     "honor", "horde", "hover", "human", "humid", "humor", "hurry", "hyena",
     "ideal", "igloo", "image", "imply", "inbox", "infer", "inlet", "inner",
@@ -75,23 +75,23 @@ pub const WORDS: &[&str] = &[
     "plead", "pluck", "plume", "plump", "plunk", "plush", "poach",
     "point", "poker", "polar", "polka", "power", "press", "price", "prick",
     "prime", "prism", "privy", "probe", "prong", "proof", "prose", "proud",
-    "prove", "prowl", "pulse", "punch", "pupil", "puppy", "purse", "pygmy",
+    "prove", "prowl", "pulse", "punch", "pupil", "puppy", "purse", "pygmy", "queen",
     "query", "quest", "queue", "quick", "quiet", "quota", "quote", "rabbi",
-    "radar", "radix", "radon", "raise", "rally", "ranch", "range", "rapid",
+    "radar", "radio", "radix", "radon", "raise", "rally", "ranch", "range", "rapid",
     "raven", "reach", "ready", "realm", "rebel", "rebus", "recap", "reign",
     "relax", "reply", "repel", "repot", "rerun", "reuse", "ridge", "right",
-    "risky", "rival", "rivet", "roast", "robin", "robot", "rocky", "round",
+    "risky", "rival", "rivet", "river", "roast", "robin", "robot", "rocky", "round",
     "route", "royal", "rugby", "ruler", "rusty", "safer", "saint", "salsa",
     "satin", "sauce", "savor", "savvy", "scald", "scalp", "scant", "scare",
     "scene", "scent", "scone", "scoop", "score", "scorn", "scout", "scram",
     "screw", "seize", "sense", "serve", "seven", "sever", "shade", "shake",
-    "shame", "shape", "share", "sharp", "shave", "shawl", "shelf", "shell",
+    "shame", "shape", "share", "sharp", "shave", "shawl", "sheep", "shelf", "shell",
     "shift", "shine", "shock", "shore", "short", "shout", "shrew", "skill",
     "skimp", "skulk", "skull", "skunk", "slain", "slant", "slash", "sleep",
     "sleek", "slept", "slice", "slide", "slime", "sling", "slink", "slosh",
     "sloth", "slump", "slunk", "slyly", "smart", "smash", "smear", "smell",
     "smile", "smirk", "smoke", "snail", "snake", "snare", "sneak", "snout",
-    "solar", "solve", "sorry", "south", "space", "spare", "spark", "spasm",
+    "solar", "solve", "sorry", "sound", "south", "space", "spare", "spark", "spasm",
     "spawn", "speak", "spear", "speed", "spell", "spend", "spill", "spite",
     "split", "spoil", "spoke", "spook", "spoon", "sport", "spout",
     "spree", "squad", "squat", "squid", "stack", "staff", "stage", "stain",
@@ -99,10 +99,10 @@ pub const WORDS: &[&str] = &[
     "state", "stays", "steam", "steel", "steep", "steer", "stern", "stiff",
     "sting", "stock", "stomp", "stone", "stool", "store", "storm", "story",
     "strap", "straw", "stray", "strut", "stuck", "study", "stuff", "stump",
-    "stung", "stunk", "stunt", "suave", "sugar", "suite", "sunny", "super",
+    "stunk", "stunt", "suave", "sugar", "suite", "sunny", "super",
     "surge", "swamp", "swear", "sweat", "sweep", "sweet", "swept", "swift",
-    "swirl", "swoop", "sword", "swore", "sworn", "swung", "taboo", "talon",
-    "tapir", "taunt", "tawny", "teach", "tense", "tepid", "thief", "thing",
+    "swirl", "swoop", "sword", "swore", "sworn", "swung", "table", "taboo", "talon",
+    "tawny", "teach", "tense", "tepid", "thank", "thief", "thing",
     "think", "third", "thorn", "those", "three", "threw", "throw", "thrum",
     "thumb", "thump", "tiger", "tight", "timer", "tipsy", "titan", "today",
     "token", "topaz", "torch", "total", "touch", "tough", "towel", "tower",
@@ -314,13 +314,13 @@ pub const VALID_GUESSES: &[&str] = &[
     "satin", "sauce", "savor", "savvy", "scald", "scalp", "scant", "scare",
     "scene", "scent", "scone", "scoop", "score", "scorn", "scout", "scram",
     "screw", "seize", "sense", "serve", "seven", "sever", "shade", "shake",
-    "shame", "shape", "share", "sharp", "shave", "shawl", "shelf", "shell",
+    "shame", "shape", "share", "sharp", "shave", "shawl", "sheep", "shelf", "shell",
     "shift", "shine", "shock", "shore", "short", "shout", "shrew", "skill",
     "skimp", "skulk", "skull", "skunk", "slain", "slant", "slash", "sleep",
     "sleek", "slept", "slice", "slide", "slime", "sling", "slink", "slosh",
     "sloth", "slump", "slunk", "slyly", "smart", "smash", "smear", "smell",
     "smile", "smirk", "smoke", "snail", "snake", "snare", "sneak", "snout",
-    "solar", "solve", "sorry", "south", "space", "spare", "spark", "spasm",
+    "solar", "solve", "sorry", "sound", "south", "space", "spare", "spark", "spasm",
     "spawn", "speak", "spear", "speed", "spell", "spend", "spill", "spite",
     "split", "spoil", "spoke", "spook", "spoon", "sport", "spout", "spree",
     "squad", "squat", "squid", "stack", "staff", "stage", "stain", "stake",
@@ -405,18 +405,21 @@ pub const VALID_GUESSES: &[&str] = &[
 
 /// Return all valid 5-letter words from both the answer pool and the extended guesses list.
 /// This combined pool is used both for answer selection and guess validation.
+/// Note: All words in WORDS and VALID_GUESSES are already verified to be 5 letters.
 pub fn valid_words() -> Vec<&'static str> {
-    WORDS
-        .iter()
-        .copied()
-        .chain(VALID_GUESSES.iter().copied())
-        .filter(|w| w.len() == 5)
-        .collect()
+    let mut result = Vec::with_capacity(WORDS.len() + VALID_GUESSES.len());
+    result.extend_from_slice(WORDS);
+    result.extend_from_slice(VALID_GUESSES);
+    result
 }
 
-/// Check if a word is in either the answer word list or the valid-guesses list (5-letter words only)
+/// Check if a word is in either the answer word list or the valid-guesses list.
+/// All words in both lists are already verified to be exactly 5 letters.
 pub fn is_valid_word(word: &str) -> bool {
+    if word.len() != 5 {
+        return false;
+    }
     let lower = word.to_lowercase();
-    WORDS.iter().any(|&w| w.len() == 5 && w == lower.as_str())
-        || VALID_GUESSES.iter().any(|&w| w.len() == 5 && w == lower.as_str())
+    WORDS.binary_search(&lower.as_str()).is_ok()
+        || VALID_GUESSES.binary_search(&lower.as_str()).is_ok()
 }
